@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tư Duy Toán THCS — Chuẩn CT 2018 (Lớp 6–9)</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.24.0",
+    "@vercel/kv": "https://aistudiocdn.com/@vercel/kv@^3.0.0"
+  }
+}
+</script>
+<style>
+  :root {
+    /* Chủ đạo (xanh MOET) */
+    --primary-50: #e8f0ff;
+    --primary-100: #dbe8ff;
+    --primary-500: #2563eb;
+    --primary-600: #1e48d6;
+    --primary-700: #1738a8;
+
+    /* Light */
+    --bg: #f7f8fb;         /* nền trang */
+    --fg: #0f172a;         /* chữ chính */
+    --muted: #475569;      /* chữ phụ */
+    --card: #ffffff;       /* nền thẻ/hộp */
+    --border: #e5e7eb;     /* viền nhạt */
+    --chip: #f1f5f9;       /* “mảnh giấy” nhỏ */
+    --link: var(--primary-600);
+
+    /* Elevation */
+    --shadow: 0 10px 22px rgba(2,6,23,.06), 0 2px 6px rgba(2,6,23,.06);
+  }
+
+  html[data-theme="dark"] {
+    --bg: #0b1020;
+    --fg: #e6e9f2;
+    --muted: #a5b4c7;
+    --card: #121831;
+    --border: #1f2a44;
+    --chip: #0f162c;
+    --link: #8cb4ff;
+    --shadow: 0 8px 20px rgba(0,0,0,.35);
+  }
+
+  /* Áp biến cho layout hiện có */
+  body { 
+    background: var(--bg); 
+    color: var(--fg);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  a { color: var(--link); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .header { 
+    background: linear-gradient(135deg, var(--primary-600), var(--primary-700)); 
+    color: #fff; 
+    box-shadow: var(--shadow);
+  }
+  .header :where(h1,h2,h3,p,small,strong,em,span,a) { 
+      color: inherit; 
+  }
+  .header a { text-decoration: underline; }
+  .header a:hover { text-decoration: none; opacity: .9; }
+
+  .panel, .card, .modal-content {
+    background: var(--card);
+    color: var(--fg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+  }
+
+  .msg > div:last-child {
+    background: var(--card);
+    border: 1px solid var(--border);
+  }
+  .msg.assistant > div:last-child {
+    background: var(--chip);
+  }
+
+  .badge, .pill, .hint { 
+    background: var(--chip); 
+    color: var(--muted); 
+    padding: 4px 8px; 
+    border-radius: 99px; 
+    font-size: 0.8em; 
+  }
+
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1rem; /* 10px 16px */
+    border-radius: 0.75rem; /* 12px */
+    font-weight: 600;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    text-decoration: none !important;
+  }
+  .button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .button-primary {
+    background: var(--primary-600); 
+    color: #fff; 
+    border-color: transparent;
+  }
+  .button-primary:hover:not(:disabled) { background: var(--primary-700); }
+
+  .button-ghost { 
+    background: transparent; 
+    color: var(--fg); 
+    border: 1px solid var(--border); 
+  }
+  .button-ghost:hover:not(:disabled) { background: var(--chip); }
+
+  input, textarea, select {
+    background: var(--card); 
+    color: var(--fg); 
+    border: 1px solid var(--border);
+    padding: 0.625rem 0.75rem;
+    border-radius: 0.75rem;
+    width: 100%;
+  }
+  input:focus, textarea:focus, select:focus {
+    outline: 2px solid var(--primary-500);
+    outline-offset: 1px;
+    border-color: var(--primary-500);
+  }
+  input::placeholder, textarea::placeholder { color: var(--muted); }
+
+  /* KaTeX theo theme */
+  .katex { color: inherit !important; }
+  .katex .mord, .katex .mop { color: inherit !important; }
+  .katex-display { margin: 10px 0; }
+  
+  /* Font Size Control */
+  html.font-size-sm { font-size: 14px; }
+  html.font-size-base { font-size: 16px; }
+  html.font-size-lg { font-size: 18px; }
+
+  /* Quick fixes */
+  .toast { background:var(--card); color:var(--fg); border:1px solid var(--border); }
+
+  html[data-theme="dark"] *::-webkit-scrollbar { height:10px; width:10px; }
+  html[data-theme="dark"] *::-webkit-scrollbar-thumb { background:#2a3863; border-radius:8px; }
+  html[data-theme="dark"] *::-webkit-scrollbar-track { background:#0f162c; }
+
+  img, canvas, video { filter:none !important; }
+
+  .app-footer { 
+    background: linear-gradient(135deg, var(--primary-600), var(--primary-700)); 
+    color:#eef2ff;
+    text-align: center;
+    padding: 12px 16px;
+    box-shadow: var(--shadow);
+  }
+  .app-footer a { color:#fff; text-decoration:underline; }
+  .app-footer p, .app-footer small, .app-footer em { color: inherit; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+</style>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="antialiased text-base">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

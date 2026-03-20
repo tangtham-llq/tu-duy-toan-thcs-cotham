@@ -1,0 +1,5 @@
+{
+  "name": "Copy of Tư Duy Toán THCS 4",
+  "description": "Một ứng dụng web React giúp học sinh THCS (lớp 6-9) rèn luyện tư duy giải toán theo chuẩn chương trình 2018. Ứng dụng tích hợp tính năng tự động phát hiện và gợi ý sửa lỗi gõ tiếng Việt, tập trung vào việc gợi ý phương pháp, đặt câu hỏi gợi ý, và kiểm tra các bước làm của học sinh để định hướng tư duy.",
+  "requestFramePermissions": []
+}
